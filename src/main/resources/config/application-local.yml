@@ -1,0 +1,64 @@
+spring:
+  security:
+    noMatcherPermit: false #url在redis中不存在 是否校验权限开关
+    tokenValiditySeconds: 3600 #remember me 时长
+    smsCodeLength: 6 #短信验证码长度
+    imageCodeLength: 6 #图形烟瘴吗长度
+    imageExpireIn: 60 #图片验证码过期时间 秒S
+    smsExpireIn: 60 #短信验证码过期时间 秒S
+    universalVerificationCodeValue: 930806 #通用验证码的值
+    loginProcessingUrl: /auth/signIn #用户名密码登录接口 UsernamePasswordAuthenticationFilter默认登录接口是/login
+    loginPage: /auth/require #如果未认证过会走此接口包装了返回json结果给前端提示未认证
+    logoutUrl: /auth/signOut #退出接口
+    validateImageUrls: #拦截需要图形验证的url
+      - /auth/signIn
+    validateSmsUrls: #拦截需要短信验证的url
+      - /auth/mobileIn
+    permits: #登录但是不需要检验权限的url
+      - /auth/getAuthentication
+    anonymous: #不需要登录即可访问的接口放行
+      - /test/**
+      - /auth/require
+      - /auth/signOut
+      - /validate/codeSms
+      - /validate/codeImage
+      - /auth/mobileIn
+      - /auth/signIn
+    statics: #静态资源过滤
+      - /swagger-ui.html
+      - /swagger/**
+      - /webjars/**
+      - /swagger-resources/**
+      - /v2/**
+  devtools:
+    restart:
+      enabled: true #热部署
+  redis:
+    database: 0
+    host: 127.0.0.1
+    port: 6379
+    lettuce:
+      pool:
+        max-active: 8 #最大连接数
+        max-idle: 8 #最大空闲连接
+        min-idle: 0 #最小空闲连接
+  datasource:
+    url: jdbc:mysql://localhost:3306/security?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      minimum-idle: 5
+      maximum-pool-size: 15
+      auto-commit: true
+      idle-timeout: 30000
+      pool-name: HikariCp
+      max-lifetime: 1800000
+      connection-timeout: 30000
+      connection-test-query: SELECT 1
+
+logging:
+  level:
+    org:
+      springframework:
+        security: INFO

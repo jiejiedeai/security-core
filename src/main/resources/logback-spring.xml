@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<include resource="org/springframework/boot/logging/logback/base.xml" />
+
+	<!-- ch.qos.logback.core.ConsoleAppender 控制台输出 -->  
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">  
+        <encoder>  
+            <pattern>[%-5level] %d{HH:mm:ss.SSS} [%thread] %logger{36} - %msg%n</pattern>  
+        </encoder>  
+    </appender>
+    
+	<!-- root -->
+	<appender name="logFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>/opt/tomcat/log/security.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>/opt/tomcat/log/security.%d{yyyy-MM-dd}.log</fileNamePattern>
+			<!--日志文件保留天数-->
+			<MaxHistory>48</MaxHistory>
+			<totalSizeCap>20GB</totalSizeCap>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %5p [%15.15t] %-40.40logger{39} : %m%n</pattern>
+		</encoder>
+		<triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+			<!-- 文件大小触发重写新文件 -->
+			<MaxFileSize>1GB</MaxFileSize>
+		</triggeringPolicy>
+	</appender>
+	<root level="INFO">
+		<appender-ref ref="logFile" />
+	</root>
+
+	<logger name="com.security.securitycore" level="debug" additivity="false">
+		<appender-ref ref="logFile" />
+		<appender-ref ref="console" />
+	</logger>
+
+</configuration>

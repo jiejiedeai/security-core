@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.security.securitycore.mapper.UserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.security.securitycore.model.User">
+        <id column="id" property="id" />
+        <result column="username" property="username" />
+        <result column="password" property="password" />
+        <result column="name" property="name" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="mobile" property="mobile" />
+        <result column="locked" property="locked"/>
+        <result column="status" property="status" />
+        <result column="type" property="type" />
+    </resultMap>
+
+    <resultMap id="UserRole" type="com.security.securitycore.model.UserRoleVo">
+        <result column="username" property="username" />
+        <result column="password" property="password" />
+        <result column="locked" property="locked"/>
+        <collection property="roles" ofType="com.security.securitycore.model.Role"
+                    column="userId=id"
+                    javaType="java.util.List"
+                    select="com.security.securitycore.mapper.RoleMapper.searchUserRoles"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, username, password, name, create_time, update_time, mobile,locked, status, type
+    </sql>
+
+    <!-- 通用查询结果列 -->
+    <sql id="RemovePassword">
+        id, username , name, create_time, update_time, mobile,locked, status, type
+    </sql>
+
+    <select id="searchUserIsExists" resultMap="UserRole">
+        select
+            <include refid="Base_Column_List"/>
+        from
+            user
+        where username=#{username}
+    </select>
+
+    <select id="searchUserByMobile" resultMap="UserRole">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        user
+        where mobile=#{mobile}
+    </select>
+
+    <select id="searchUserList" resultType="com.security.securitycore.model.User">
+        select
+            <include refid="Base_Column_List"/>
+        from
+            user
+
+        <where>
+            and 1=1
+            <if test="name!=null and name !=''">
+                and name like concat ('%',#{name},'%')
+            </if>
+        </where>
+    </select>
+</mapper>

@@ -1,0 +1,39 @@
+server:
+  port: 8080
+  servlet:
+    session:
+      timeout: 1m   #session过期时间，以秒为单位，session过期后security登录会失效 不到1分钟会默认为1分钟
+      cookie:
+        name: JSESSIONID
+spring:
+  application:
+    name: security-core
+  profiles:
+    active: local
+  thymeleaf:
+    cache: false #关闭缓存否则没法看到实时页面
+    encoding: utf-8
+    mode: HTML5
+    prefix: classpath:/resources/ #默认可以不用配置
+    suffix: .html #默认可以不用配置
+    servlet:
+      content-type: text/html
+  session:
+    store-type: redis #redis管理session
+mybatis:
+  mapperLocations: classpath:mapper/*.xml  #注意：一定要对应mapper映射xml文件的所在路径
+  typeAliasesPackage: com.security.securitycore.model # 注意：对应实体类的路径
+  configuration:
+    map-underscore-to-camel-case: true
+
+
+api:
+  boot:
+    swagger:
+      enable: true
+      description: securityAPI文档
+      version: 1.0
+      license: ApiBoot
+      license-url: http://apiboot.minbox.io/zh-cn/
+      contact:
+        name: QP
