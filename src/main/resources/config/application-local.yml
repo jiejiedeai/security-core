@@ -43,20 +43,20 @@ spring:
         max-idle: 8 #最大空闲连接
         min-idle: 0 #最小空闲连接
   datasource:
-    url: jdbc:mysql://localhost:3306/security?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
-    username: root
-    password: root
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    hikari:
-      minimum-idle: 5
-      maximum-pool-size: 15
-      auto-commit: true
-      idle-timeout: 30000
-      pool-name: HikariCp
-      max-lifetime: 1800000
-      connection-timeout: 30000
-      connection-test-query: SELECT 1
 
+url: jdbc:mysql://localhost:3306/security?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+  username: root
+  password: root
+  driver-class-name: com.mysql.cj.jdbc.Driver
+  hikari:
+    minimum-idle: 5
+    maximum-pool-size: 15
+    auto-commit: true
+    idle-timeout: 30000
+    pool-name: HikariCp
+    max-lifetime: 1800000
+    connection-timeout: 30000
+    connection-test-query: SELECT 1
 logging:
   level:
     org:
